@@ -60,12 +60,16 @@ def conveyor(chan_in, basket_chan):
 
 
 @process
-def basket(chan_in, pause_chan, capacity):
+def basket(chan_in, pause_chan, capacity, colour):
+    print colour, "basket initialized"
     count = 0
     while True:
         ball = chan_in()
         if ball is not None:
-            print ball
+            print "basket", ball
+            if ball != colour:
+                print "BASKET ERROR"
+                raise ValueError("Ball ended up in wrong basket")
             count += 1
             if count >= capacity:
                 count = 0
@@ -90,7 +94,7 @@ if __name__ == '__main__':
     capacities = 10
 
     Parallel(
-        basket(basketChan.reader(), pauseChan.writer(), capacities),
+        basket(basketChan.reader(), pauseChan.writer(), capacities, "red"),
         conveyor(producerChan.reader(), basketChan.writer()),
         producer(producerChan.writer(), pauseChan.reader())
     )
