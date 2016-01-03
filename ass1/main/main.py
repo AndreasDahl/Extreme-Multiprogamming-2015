@@ -4,34 +4,33 @@ from pycsp.parallel import *
 
 capacities = 10
 distance_to_first = 5
+belts = 2
 colours = ['red', 'yellow', 'green']
 
 
 @process
-def producer(chan_out, pause_chan, print_chan):
+def producer(out_chans, pause_chans, print_chan):
     ''' Producer and camera
     '''
-    pauses = 0
+    pauses = [0] * len(pause_chans)
     try:
         # Every iteration in this loop is a "tick" for the whole application
         while True:
             print_chan("produce %s" % pauses)
-            # Asyncronusly see if the pause channel has any messages
-            c, msg = PriSelect(InputGuard(pause_chan), SkipGuard())
-            if c == pause_chan:
-                pauses = msg
-            print_chan("pauses %s" % pauses)
-            if pauses <= 0:
-                print_chan("produce something")
-                # Produce a ball and send it to the conveyor
-                chan_out(random.choice(colours))
-            else:
-                print_chan("wait %s" % pauses)
-                # Do not produce a ball on paused ticks, but decrement the pause counter
-                chan_out(None)
-                print_chan("after wait")
-                pauses -= 1
-
+            for i in range(len(out_chans)):
+                # Asyncronusly see if the pause channel has any messages
+                c, msg = PriSelect(InputGuard(pause_chans[i]), SkipGuard())
+                if c == pause_chans[i]:
+                    pauses[i] = msg
+                print_chan("pauses %s channel %s" % (pauses[i], i))
+                if pauses[i] <= 0:
+                    print_chan("produce something")
+                    # Produce a ball and send it to the conveyor
+                    out_chans[i](random.choice(colours))
+                else:
+                    print_chan("wait %s" % pauses)
+                    # Do not produce a ball on paused ticks, but decrement the pause counter
+                    pauses[i] -= 1
 
     except ChannelRetireException:
         print "producer stopping"
@@ -109,20 +108,30 @@ def printer(chan_in):
 
 if __name__ == '__main__':
     print "run"
-    producerChan = Channel("producer")
-    pauseChan = Channel("pause", len(colours))
     print_chan = Channel("print")
-    bin_writers = []
 
-    for colour in colours:
-        bin_chan = Channel(colour)
-        Spawn(basket(bin_chan.reader(), pauseChan.writer(), capacities, colour, print_chan.writer()))
-        bin_writers.append(bin_chan.writer())
+    producer_writers = []
+    pause_readers = []
+
+    for b in range(belts):
+        bin_writers = []
+        pause_chan = Channel("Pause %s" % b)
+
+        for colour in colours:
+            bin_chan = Channel("%s: %s" % (b, colour))
+            Spawn(basket(bin_chan.reader(), pause_chan.writer(), capacities, colour, print_chan.writer()))
+            bin_writers.append(bin_chan.writer())
+
+        producer_chan = Channel("Producer %s" % b)
+
+        Spawn(conveyor(producer_chan.reader(), bin_writers, print_chan.writer()))
+        producer_writers.append(producer_chan.writer())
+        pause_readers.append(pause_chan.reader())
+
 
     capacities = 10
     Parallel(
-        conveyor(producerChan.reader(), bin_writers, print_chan.writer()),
-        producer(producerChan.writer(), pauseChan.reader(), print_chan.writer()),
+        producer(producer_writers, pause_readers, print_chan.writer()),
         printer(print_chan.reader()),
     )
 
