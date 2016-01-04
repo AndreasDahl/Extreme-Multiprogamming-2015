@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <process name="untitled" package="Interactive">
+    <cpoint name="cpoint1" x="43" y="423"/>
+    <cpoint name="cpoint2" x="43" y="683"/>
+    <cpoint name="cpoint3" x="763" y="683"/>
+    <cpoint name="cpoint4" x="763" y="543"/>
+    <processlink file="Basket.csp" h="70" name="Basket" process="Basket" w="140" x="530" y="590"/>
+    <processlink file="Basket.csp" h="70" name="Basket*" process="Basket" w="140" x="530" y="510"/>
+    <processlink file="Basket.csp" h="70" name="Basket**" process="Basket" w="140" x="530" y="430"/>
+    <processlink file="Basket.csp" h="70" name="Basket***" process="Basket" w="140" x="530" y="130"/>
+    <processlink file="conveyor.csp" h="110" name="conveyor*" process="conveyor" w="160" x="310" y="210"/>
+    <processlink file="Producer.csp" h="88" name="producer" process="Producer" w="160" x="90" y="370">
+      <config data="STIKLg==" process="Producer"/>
+    </processlink>
+    <processlink file="Basket.csp" h="70" name="Basket****" process="Basket" w="140" x="530" y="230"/>
+    <processlink file="Basket.csp" h="70" name="Basket*****" process="Basket" w="140" x="530" y="330"/>
+    <cpoint name="cpoint5" x="43" y="403"/>
+    <cpoint name="cpoint6" x="43" y="83"/>
+    <cpoint name="cpoint7" x="763" y="83"/>
+    <cpoint name="cpoint8" x="763" y="263"/>
+    <processlink file="conveyor.csp" h="110" name="conveyor" process="conveyor" w="160" x="300" y="500"/>
+    <channel name="chan8">
+      <connection direction="out" target="conveyor*.red_chan"/>
+      <connection direction="in" target="Basket***.chan_in"/>
+    </channel>
+    <channel name="chan9">
+      <connection direction="out" target="conveyor*.yellow_chan"/>
+      <connection direction="in" target="Basket****.chan_in"/>
+    </channel>
+    <channel name="chan10">
+      <connection direction="out" target="conveyor*.green_chan"/>
+      <connection direction="in" target="Basket*****.chan_in"/>
+    </channel>
+    <channel name="chan11">
+      <connection direction="out" target="Basket***.pause_chan"/>
+      <connection direction="in" target="cpoint8."/>
+    </channel>
+    <channel name="chan12">
+      <connection direction="out" target="Basket****.pause_chan"/>
+      <connection direction="in" target="cpoint8."/>
+    </channel>
+    <channel name="chan13">
+      <connection direction="out" target="Basket*****.pause_chan"/>
+      <connection direction="in" target="cpoint8."/>
+    </channel>
+    <channel name="chan14">
+      <connection direction="out" target="cpoint8."/>
+      <connection direction="in" target="cpoint7."/>
+    </channel>
+    <channel name="chan15">
+      <connection direction="out" target="cpoint7."/>
+      <connection direction="in" target="cpoint6."/>
+    </channel>
+    <channel name="chan16">
+      <connection direction="out" target="cpoint6."/>
+      <connection direction="in" target="cpoint5."/>
+    </channel>
+    <channel name="chan17">
+      <connection direction="out" target="cpoint5."/>
+      <connection direction="in" target="producer.pause_chan1"/>
+    </channel>
+    <channel name="chan18">
+      <connection direction="out" target="producer.chan_out1"/>
+      <connection direction="in" target="conveyor*.chan_in"/>
+    </channel>
+    <channel name="chan19">
+      <connection direction="out" target="producer.chan_out2"/>
+      <connection direction="in" target="conveyor.chan_in"/>
+    </channel>
+    <channel name="chan20">
+      <connection direction="out" target="conveyor.red_chan"/>
+      <connection direction="in" target="Basket**.chan_in"/>
+    </channel>
+    <channel name="chan21">
+      <connection direction="out" target="conveyor.yellow_chan"/>
+      <connection direction="in" target="Basket*.chan_in"/>
+    </channel>
+    <channel name="chan22">
+      <connection direction="out" target="conveyor.green_chan"/>
+      <connection direction="in" target="Basket.chan_in"/>
+    </channel>
+    <channel name="chan23">
+      <connection direction="out" target="Basket*.pause_chan"/>
+      <connection direction="in" target="cpoint4."/>
+    </channel>
+    <channel name="chan24">
+      <connection direction="out" target="Basket**.pause_chan"/>
+      <connection direction="in" target="cpoint4."/>
+    </channel>
+    <channel name="chan25">
+      <connection direction="out" target="Basket.pause_chan"/>
+      <connection direction="in" target="cpoint4."/>
+    </channel>
+    <channel name="chan26">
+      <connection direction="out" target="cpoint4."/>
+      <connection direction="in" target="cpoint3."/>
+    </channel>
+    <channel name="chan27">
+      <connection direction="out" target="cpoint3."/>
+      <connection direction="in" target="cpoint2."/>
+    </channel>
+    <channel name="chan28">
+      <connection direction="out" target="cpoint2."/>
+      <connection direction="in" target="cpoint1."/>
+    </channel>
+    <channel name="chan29">
+      <connection direction="out" target="cpoint1."/>
+      <connection direction="in" target="producer.pause_chan2"/>
+    </channel>
+  </process>
+</doc>
