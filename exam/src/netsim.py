@@ -14,9 +14,10 @@ def do_service(outp):
 
 @process
 def firewall(whitelist, addr, port, conn):
-    print addr, port, whitelist
     if (addr, port) in whitelist:
         Spawn(do_service(conn))
+    else:
+        poison(conn)
 
 
 @process
