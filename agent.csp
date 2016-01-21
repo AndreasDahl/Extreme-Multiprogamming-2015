@@ -1,0 +1,15 @@
+<doc>
+  <process name="agent" package="default">
+    <process name="agent">
+      <channelend direction="in" name="in0" target="agentFunc.in0" type="unknown"/>
+      <channelend direction="in" name="in1" target="agentFunc.in1" type="unknown"/>
+      <channelend direction="out" name="out0" target="agentFunc.out0" type="unknown"/>
+      <channelend direction="out" name="out1" target="agentFunc.out1" type="unknown"/>
+      <code configurable="yes" func="agentFunc" src="agent"/>
+    </process>
+    <channelend direction="in" name="chan_in" target="agent.in0"/>
+    <channelend direction="in" name="room_reader" target="agent.in1"/>
+    <channelend direction="out" name="print_writer" target="agent.out0"/>
+    <channelend direction="out" name="room_writer" target="agent.out1"/>
+  </process>
+</doc>

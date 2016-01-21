@@ -1,0 +1,11 @@
+<doc>
+  <process name="terminal" package="default">
+    <process name="terminal">
+      <channelend direction="in" name="chan_in" target="terminalFunc.in0" type="unknown"/>
+      <channelend direction="out" name="chan_out" target="terminalFunc.out0" type="unknown"/>
+      <code configurable="yes" func="terminalFunc" src="terminal"/>
+    </process>
+    <channelend direction="in" name="chan_in" target="terminal.in0"/>
+    <channelend direction="out" name="chan_out" target="terminal.out0"/>
+  </process>
+</doc>

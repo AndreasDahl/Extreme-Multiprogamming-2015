@@ -1,0 +1,19 @@
+<doc>
+  <process name="room" package="default">
+    <process name="room">
+      <channelend direction="in" name="in0" target="roomFunc.in0" type="unknown"/>
+      <channelend direction="out" name="out0" target="roomFunc.out0" type="unknown"/>
+      <channelend direction="out" name="out1" target="roomFunc.out1" type="unknown"/>
+      <channelend direction="out" name="out2" target="roomFunc.out2" type="unknown"/>
+      <channelend direction="out" name="out3" target="roomFunc.out3" type="unknown"/>
+      <channelend direction="out" name="out4" target="roomFunc.out4" type="unknown"/>
+      <code configurable="yes" func="roomFunc" src="room"/>
+    </process>
+    <channelend direction="in" name="agent_reader" target="room.in0"/>
+    <channelend direction="out" name="room_writer" target="room.out0"/>
+    <channelend direction="out" name="adjacent[0]" target="room.out1"/>
+    <channelend direction="out" name="adjacent[1]" target="room.out2"/>
+    <channelend direction="out" name="adjacent[2]" target="room.out3"/>
+    <channelend direction="out" name="adjacent[3]" target="room.out4"/>
+  </process>
+</doc>
