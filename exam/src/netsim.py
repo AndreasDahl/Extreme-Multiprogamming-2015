@@ -18,18 +18,19 @@ def do_service(outp):
 
 
 @process
-def firewall(whitelist, swears, addr, port, client_w):
+def firewall(whitelist, swear_words, addr, port, client_w):
     """ Firewall layer for the server. All communication should pass through a
     firewall process to reach a server.
 
     :param whitelist:  list of (ip, port) doubles of allowed clients.
-    :param swears:  List of words not allowed in messages to a server job.
+    :param swear_words:  List of words not allowed in messages to a server job.
     :param addr:
     :param port:
     :param conn:
     """
     # Verify IP/Port whitelist
     if (addr, port) in whitelist:
+        # Setup as node between client and server.
         client_chan = Channel()
         server_chan = Channel()
         server_r = server_chan.reader()
@@ -41,10 +42,14 @@ def firewall(whitelist, swears, addr, port, client_w):
 
         while True:
             msg = client_r()
-            for swear in swears:
+            # Poison channels if client swears.
+            for swear in swear_words:
                 if swear in msg:
-                    poison(client_w)
+                    poison(client_w, server_r, client_r)
                     return
+
+            # If no swears, then forward message to server and write response
+            # back to client.
             server_w("[SFW] " + msg)
             client_w("[RESP] " + server_r())
     else:
@@ -52,10 +57,10 @@ def firewall(whitelist, swears, addr, port, client_w):
 
 
 @process
-def server(whitelist, swears, IP):
+def server(whitelist, swear_words, IP):
     while True:  # Only do 10 services then terminate
         addr, port, conn = IP()
-        Spawn(firewall(whitelist, swears, addr, port, conn))
+        Spawn(firewall(whitelist, swear_words, addr, port, conn))
 
 
 @process
@@ -78,12 +83,12 @@ def client(IP, id):
 
 
 if __name__ == '__main__':
-    swears = ["objects", "java", "php"]
+    swear_words = ["objects", "java", "php", "5"]
     whitelist = [("10.0.0.12", 80), ("10.0.0.22", 21), ("10.0.0.28", 22)]
     service = Channel()
 
     try:
-        Parallel(server(whitelist, swears, service.reader()), [client(service.writer(), id) for id in xrange(10)])
+        Parallel(server(whitelist, swear_words, service.reader()), [client(service.writer(), id) for id in xrange(10)])
     except Exception, msg:
         if str(msg) == 'Deadlock':
             pass  # All simulated clients and servers are shut down... time to terminate
