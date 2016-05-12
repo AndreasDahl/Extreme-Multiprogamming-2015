@@ -1,0 +1,11 @@
+<doc>
+  <process name="do_service" package="default">
+    <process name="do_service">
+      <channelend direction="in" name="inp" target="do_serviceFunc.in0" type="unknown"/>
+      <channelend direction="out" name="outp" target="do_serviceFunc.out0" type="unknown"/>
+      <code configurable="yes" func="do_serviceFunc" src="do_service"/>
+    </process>
+    <channelend direction="in" name="inp" target="do_service.in0"/>
+    <channelend direction="out" name="outp" target="do_service.out0"/>
+  </process>
+</doc>

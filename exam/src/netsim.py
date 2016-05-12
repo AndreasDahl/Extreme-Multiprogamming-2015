@@ -20,7 +20,7 @@ def do_service(outp):
 
 
 @process
-def firewall(whitelist, swear_words, addr, port, client_w, monitor_reader):
+def firewall(whitelist, swear_words, addr, port, client_w, monitor_r):
     """ Firewall layer for the server. All communication should pass through a
     firewall process to reach a server.
 
@@ -45,13 +45,13 @@ def firewall(whitelist, swear_words, addr, port, client_w, monitor_reader):
         monitor_writer = None;
 
         while True:
-            g, msg = AltSelect(InputGuard(client_r), InputGuard(monitor_reader))
+            g, msg = AltSelect(InputGuard(client_r), InputGuard(monitor_r))
 
             if (g == client_r):
                 # Poison channels if client swears.
                 for swear in swear_words:
                     if swear in msg:
-                        poison(client_w, server_r, client_r, monitor_reader)
+                        poison(client_w, server_r, client_r, monitor_r)
                         return
 
                 # If no swears, then forward message to server and write response
@@ -71,12 +71,12 @@ def conn_to_id(addr, port):
 
 
 @process
-def server(whitelist, swear_words, IP, monitors_access):
+def server(whitelist, swear_words, IP, monitors_r):
     monitor_writers = {}
     while True:
         monitor_chan = Channel()
 
-        p, msg = AltSelect(InputGuard(IP), InputGuard(monitors_access))
+        p, msg = AltSelect(InputGuard(IP), InputGuard(monitors_r))
         if p == IP:
             (addr, port, conn) = msg
             Spawn(firewall(whitelist, swear_words, addr, port, conn,
@@ -109,9 +109,9 @@ def client(IP, port):
 
 
 @process
-def monitor(server_writer, id):
+def monitor(server_w, id):
     conn = Channel()
-    server_writer((id, conn.writer()))
+    server_w((id, conn.writer()))
     inp = conn.reader()
 
     # Monitor the first three messages an then kill the connection

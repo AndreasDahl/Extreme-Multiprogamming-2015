@@ -1,0 +1,34 @@
+channel job  : {40..50}
+channel pass : {100..200}
+
+channel sub  : {0..200}
+channel fail : {0..99}
+
+TEST = sub?x -> if x >= 100 then pass!x -> TEST else fail!x -> TEST
+
+DEV = (job?x -> sub!(x*2) -> DEV) [] (fail?y -> sub!(y + 10) -> DEV)
+
+SYS = (TEST [|{|sub, fail|}|] DEV) \ {| sub, fail |}
+
+
+DEV' = (job?x -> DEVS(x)) [] (fail?y -> sub!(y + 10) -> DEV')
+DEVS(x) = (sub!(2 * x) -> DEV') [] (fail?y -> sub!(y + 10) -> DEVS(x))
+
+SYS' = (TEST [|{|sub, fail|}|] DEV') \ {| sub, fail |}
+
+
+DEV'' = (DEVJ [| {} |] DEVF)
+DEVJ = job?x -> sub!(2 * x) -> DEVJ
+DEVF = fail?y -> sub!(y + 10) -> DEVF
+
+SYS'' = (TEST [|{|sub, fail|}|] DEV'') \ {| sub, fail |}
+
+
+assert SYS   :[deadlock free]
+assert SYS   :[deterministic]
+
+assert SYS'  :[deadlock free]
+assert SYS'  :[deterministic]
+
+assert SYS'' :[deadlock free]
+assert SYS'' :[deterministic]

@@ -1,0 +1,11 @@
+<doc>
+  <process name="monitor" package="default">
+    <process name="monitor">
+      <channelend direction="in" name="inp" target="monitorFunc.in0" type="unknown"/>
+      <channelend direction="out" name="server_w" target="monitorFunc.out0" type="unknown"/>
+      <code configurable="yes" func="monitorFunc" src="monitor"/>
+    </process>
+    <channelend direction="in" name="inp" target="monitor.in0"/>
+    <channelend direction="out" name="server_w" target="monitor.out0"/>
+  </process>
+</doc>

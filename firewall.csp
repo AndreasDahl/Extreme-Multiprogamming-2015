@@ -1,0 +1,19 @@
+<doc>
+  <process name="firewall" package="default">
+    <process name="firewall">
+      <channelend direction="in" name="server_r" target="firewallFunc.in0" type="unknown"/>
+      <channelend direction="in" name="client_r" target="firewallFunc.in1" type="unknown"/>
+      <channelend direction="in" name="monitor_r" target="firewallFunc.in2" type="unknown"/>
+      <channelend direction="out" name="server_w" target="firewallFunc.out0" type="unknown"/>
+      <channelend direction="out" name="client_w" target="firewallFunc.out1" type="unknown"/>
+      <channelend direction="out" name="monitor_w" target="firewallFunc.out2" type="unknown"/>
+      <code configurable="yes" func="firewallFunc" src="firewall"/>
+    </process>
+    <channelend direction="in" name="server_r" target="firewall.in0"/>
+    <channelend direction="in" name="client_r" target="firewall.in1"/>
+    <channelend direction="in" name="monitor_r" target="firewall.in2"/>
+    <channelend direction="out" name="server_w" target="firewall.out0"/>
+    <channelend direction="out" name="client_w" target="firewall.out1"/>
+    <channelend direction="out" name="monitor_w" target="firewall.out2"/>
+  </process>
+</doc>

@@ -1,0 +1,19 @@
+process	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^    AltSelect, InputGuard$/;"	namespace	line:2
+Channel	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^    AltSelect, InputGuard$/;"	namespace	line:2
+Parallel	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^    AltSelect, InputGuard$/;"	namespace	line:2
+poison	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^    AltSelect, InputGuard$/;"	namespace	line:2
+shutdown	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^    AltSelect, InputGuard$/;"	namespace	line:2
+Spawn	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^    AltSelect, InputGuard$/;"	namespace	line:2
+AltSelect	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^    AltSelect, InputGuard$/;"	namespace	line:2
+InputGuard	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^    AltSelect, InputGuard$/;"	namespace	line:2
+sleep	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^from time import sleep$/;"	namespace	line:3
+do_service	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^def do_service(outp):$/;"	function	line:7
+firewall	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^def firewall(whitelist, swear_words, addr, port, client_w, monitor_r):$/;"	function	line:23
+conn_to_id	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^def conn_to_id(addr, port):$/;"	function	line:69
+server	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^def server(whitelist, swear_words, IP, monitors_r):$/;"	function	line:74
+client	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^def client(IP, port):$/;"	function	line:92
+monitor	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^def monitor(server_w, id):$/;"	function	line:112
+swear_words	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^    swear_words = ["objects", "java", "php", "5"]$/;"	variable	line:125
+whitelist	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^    whitelist = [("10.0.0.12", 0),$/;"	variable	line:126
+service	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^    service = Channel()$/;"	variable	line:136
+monitor_access	/Users/andreasdahl/git/extreme-multiprogramming/exam/src/netsim.py	/^    monitor_access = Channel()$/;"	variable	line:137

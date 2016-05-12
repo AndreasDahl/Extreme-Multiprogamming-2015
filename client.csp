@@ -1,0 +1,13 @@
+<doc>
+  <process name="client" package="default">
+    <process name="client">
+      <channelend direction="in" name="inp" target="clientFunc.in0" type="unknown"/>
+      <channelend direction="out" name="outp" target="clientFunc.out0" type="unknown"/>
+      <channelend direction="out" name="IP" target="clientFunc.out1" type="unknown"/>
+      <code configurable="yes" func="clientFunc" src="client"/>
+    </process>
+    <channelend direction="in" name="inp" target="client.in0"/>
+    <channelend direction="out" name="outp" target="client.out0"/>
+    <channelend direction="out" name="IP" target="client.out1"/>
+  </process>
+</doc>
